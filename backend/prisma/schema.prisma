@@ -1,0 +1,62 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id           String   @id @default(cuid())
+  firstName    String
+  lastName     String
+  email        String   @unique
+  phone        String   @unique
+  pinHash      String
+  bvnEncrypted String?
+  kycVerified  Boolean  @default(false)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  account       Account?
+  transactions  Transaction[]
+  refreshTokens RefreshToken[]
+}
+
+model Account {
+  id            String  @id @default(cuid())
+  userId        String  @unique
+  accountNumber String  @unique
+  balance       Float   @default(250000)
+  currency      String  @default("NGN")
+  accountType   String  @default("savings")
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Transaction {
+  id        String   @id @default(cuid())
+  userId    String
+  type      String
+  amount    Float
+  currency  String   @default("NGN")
+  reference String   @unique
+  status    String   @default("success")
+  narration String?
+  recipient String?
+  metadata  String?  // JSON string (SQLite has no JSON type)
+  createdAt DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model RefreshToken {
+  id        String   @id @default(cuid())
+  userId    String
+  tokenHash String   @unique
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}

@@ -22,7 +22,7 @@ function InputField({
 }) {
   return (
     <div>
-      <label className="block text-sm font-semibold text-gray-600 mb-2">
+      <label className="block text-sm font-semibold text-gray-700 mb-3">
         {label}
       </label>
       <div className="relative">
@@ -32,7 +32,7 @@ function InputField({
           onChange={(e) => onChange(e.target.value)}
           placeholder={placeholder}
           maxLength={maxLength}
-          className="w-full px-4 py-[14px] bg-gray-50 border-2 border-gray-100 rounded-2xl text-base font-medium text-gray-900 placeholder-gray-400 focus:outline-none focus:border-green-500 focus:bg-white transition-all"
+          className="w-full px-5 py-5 bg-gray-50 border-2 border-gray-100 rounded-2xl text-base font-medium text-gray-900 placeholder-gray-400 focus:outline-none focus:border-green-500 focus:bg-white transition-all"
         />
         {suffix && (
           <div className="absolute right-4 top-1/2 -translate-y-1/2">{suffix}</div>
@@ -176,7 +176,7 @@ export default function RegisterPage() {
       </div>
 
       {/* Form card */}
-      <div className="flex-1 bg-white px-6 pt-8 pb-12 overflow-y-auto">
+      <div className="flex-1 bg-white px-6 pt-10 pb-12 overflow-y-auto" style={{boxShadow:'0 -8px 24px rgba(0,0,0,0.06)'}}>
         {error && (
           <div className="mb-5 px-4 py-3 bg-red-50 border border-red-100 rounded-2xl text-sm text-red-600 font-medium">
             {error}
@@ -184,21 +184,19 @@ export default function RegisterPage() {
         )}
 
         {step === 1 ? (
-          <div className="space-y-5">
-            <div className="grid grid-cols-2 gap-4">
-              <InputField
-                label="First Name"
-                value={form.firstName}
-                onChange={(v) => update('firstName', v)}
-                placeholder="John"
-              />
-              <InputField
-                label="Last Name"
-                value={form.lastName}
-                onChange={(v) => update('lastName', v)}
-                placeholder="Doe"
-              />
-            </div>
+          <div className="space-y-7">
+            <InputField
+              label="First Name"
+              value={form.firstName}
+              onChange={(v) => update('firstName', v)}
+              placeholder="John"
+            />
+            <InputField
+              label="Last Name"
+              value={form.lastName}
+              onChange={(v) => update('lastName', v)}
+              placeholder="Doe"
+            />
 
             <InputField
               label="Phone Number"
@@ -219,11 +217,10 @@ export default function RegisterPage() {
 
             {/* BVN field */}
             <div>
-              <label className="block text-sm font-semibold text-gray-600 mb-2">
+              <label className="block text-sm font-semibold text-gray-700 mb-3">
                 BVN (Bank Verification Number)
               </label>
-              <div className="flex gap-2">
-                <div className="relative flex-1">
+              <div className="relative">
                   <input
                     type="tel"
                     value={form.bvn}
@@ -234,27 +231,25 @@ export default function RegisterPage() {
                     placeholder="Enter 11-digit BVN"
                     maxLength={11}
                     disabled={bvnVerified}
-                    className={`w-full px-4 py-[14px] bg-gray-50 border-2 rounded-2xl text-base font-medium text-gray-900 placeholder-gray-400 focus:outline-none transition-all ${
+                    className={`w-full px-5 py-5 pr-24 bg-gray-50 border-2 rounded-2xl text-base font-medium text-gray-900 placeholder-gray-400 focus:outline-none transition-all ${
                       bvnVerified
                         ? 'border-green-400 bg-green-50 text-green-700'
                         : 'border-gray-100 focus:border-green-500 focus:bg-white'
                     }`}
                   />
-                  {bvnVerified && (
-                    <ShieldCheck size={18} className="absolute right-4 top-1/2 -translate-y-1/2 text-green-600" />
+                  {bvnVerified ? (
+                    <ShieldCheck size={20} className="absolute right-4 top-1/2 -translate-y-1/2 text-green-600" />
+                  ) : (
+                    <button
+                      type="button"
+                      onClick={handleVerifyBvn}
+                      disabled={bvnVerifying || form.bvn.length !== 11}
+                      className="absolute right-3 top-1/2 -translate-y-1/2 px-3 py-1.5 bg-green-600 hover:bg-green-700 text-white font-bold rounded-xl text-sm transition-colors disabled:opacity-40 flex items-center gap-1"
+                    >
+                      {bvnVerifying ? <Loader2 size={14} className="animate-spin" /> : 'Verify'}
+                    </button>
                   )}
                 </div>
-                {!bvnVerified && (
-                  <button
-                    type="button"
-                    onClick={handleVerifyBvn}
-                    disabled={bvnVerifying || form.bvn.length !== 11}
-                    className="px-4 py-3 bg-green-600 hover:bg-green-700 text-white font-semibold rounded-2xl text-sm transition-colors disabled:opacity-50 shrink-0 flex items-center gap-1.5"
-                  >
-                    {bvnVerifying ? <Loader2 size={16} className="animate-spin" /> : 'Verify'}
-                  </button>
-                )}
-              </div>
               {bvnVerified && (
                 <p className="text-xs text-green-600 font-medium mt-1.5 flex items-center gap-1">
                   <CheckCircle2 size={12} /> BVN verified successfully
@@ -268,13 +263,13 @@ export default function RegisterPage() {
             <button
               type="button"
               onClick={handleStep1}
-              className="w-full bg-green-600 hover:bg-green-700 active:bg-green-800 text-white font-bold py-[15px] rounded-2xl flex items-center justify-center gap-2 transition-colors mt-4 text-base shadow-lg shadow-green-200"
+              className="w-full bg-green-600 hover:bg-green-700 active:bg-green-800 text-white font-bold py-5 rounded-2xl flex items-center justify-center gap-2 transition-colors mt-2 text-base shadow-lg shadow-green-200"
             >
               Continue <ArrowRight size={18} />
             </button>
           </div>
         ) : (
-          <form onSubmit={handleSubmit} className="space-y-5">
+          <form onSubmit={handleSubmit} className="space-y-7">
             <button
               type="button"
               onClick={() => { setStep(1); setError(''); }}
@@ -323,7 +318,7 @@ export default function RegisterPage() {
             <button
               type="submit"
               disabled={loading}
-              className="w-full bg-green-600 hover:bg-green-700 active:bg-green-800 text-white font-bold py-[15px] rounded-2xl flex items-center justify-center gap-2 transition-colors mt-4 text-base shadow-lg shadow-green-200 disabled:opacity-60"
+              className="w-full bg-green-600 hover:bg-green-700 active:bg-green-800 text-white font-bold py-5 rounded-2xl flex items-center justify-center gap-2 transition-colors mt-4 text-base shadow-lg shadow-green-200 disabled:opacity-60"
             >
               {loading ? (
                 <span className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />

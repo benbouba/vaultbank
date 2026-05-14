@@ -156,17 +156,17 @@ export default function TransferPage() {
 
         {/* Form */}
         <div className="bg-white rounded-3xl p-6 shadow-sm">
-          <form onSubmit={handleSubmit} className="space-y-5">
+          <form onSubmit={handleSubmit} className="space-y-7">
             {error && <div className="px-4 py-3 bg-red-50 border border-red-200 rounded-xl text-sm text-red-600">{error}</div>}
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2.5">Bank</label>
+              <label className="block text-sm font-medium text-gray-700 mb-3">Bank</label>
               <div className="relative">
                 <Building2 size={15} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
                 <select
                   value={form.bankCode}
                   onChange={(e) => { setForm((f) => ({ ...f, bankCode: e.target.value })); if (form.accountNumber.length === 10) resolveAccount(); }}
-                  className="w-full pl-9 pr-4 py-4 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-green-500 bg-white"
+                  className="w-full pl-9 pr-4 py-5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-green-500 bg-white"
                 >
                   <option value="">Select bank</option>
                   {BANKS.map((b) => (
@@ -177,7 +177,7 @@ export default function TransferPage() {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2.5">Account Number</label>
+              <label className="block text-sm font-medium text-gray-700 mb-3">Account Number</label>
               <input
                 type="tel"
                 value={form.accountNumber}
@@ -191,7 +191,7 @@ export default function TransferPage() {
                   }
                 }}
                 placeholder="0123456789"
-                className="w-full px-4 py-4 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-green-500"
+                className="w-full px-4 py-5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-green-500"
               />
               {resolving && <p className="text-xs text-gray-400 mt-1.5 animate-pulse">Resolving account...</p>}
               {resolvedName && !resolving && (
@@ -203,14 +203,14 @@ export default function TransferPage() {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2.5">Amount (₦)</label>
+              <label className="block text-sm font-medium text-gray-700 mb-3">Amount (₦)</label>
               <input
                 type="number"
                 value={form.amount}
                 onChange={(e) => setForm((f) => ({ ...f, amount: e.target.value }))}
                 placeholder="0.00"
                 min="100"
-                className="w-full px-4 py-4 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-green-500"
+                className="w-full px-4 py-5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-green-500"
               />
               {/* Quick amount chips */}
               <div className="flex gap-2 mt-2">
@@ -228,20 +228,20 @@ export default function TransferPage() {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2.5">Narration <span className="text-gray-400 font-normal">(optional)</span></label>
+              <label className="block text-sm font-medium text-gray-700 mb-3">Narration <span className="text-gray-400 font-normal">(optional)</span></label>
               <input
                 type="text"
                 value={form.narration}
                 onChange={(e) => setForm((f) => ({ ...f, narration: e.target.value }))}
                 placeholder="What's this for?"
                 maxLength={50}
-                className="w-full px-4 py-4 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-green-500"
+                className="w-full px-4 py-5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-green-500"
               />
             </div>
 
             <button
               type="submit"
-              className="w-full bg-green-600 hover:bg-green-700 text-white font-semibold py-4 rounded-xl transition-colors"
+              className="w-full bg-green-600 hover:bg-green-700 text-white font-semibold py-5 rounded-xl transition-colors"
             >
               Continue
             </button>

@@ -84,15 +84,15 @@ export default function BillsPage() {
             <span className="font-semibold text-gray-900">Electricity Bill</span>
           </div>
 
-          <form onSubmit={handleSubmit} className="space-y-5">
+          <form onSubmit={handleSubmit} className="space-y-7">
             {error && <div className="px-4 py-3 bg-red-50 border border-red-200 rounded-xl text-sm text-red-600">{error}</div>}
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2.5">Distribution Company (DISCO)</label>
+              <label className="block text-sm font-medium text-gray-700 mb-3">Distribution Company (DISCO)</label>
               <select
                 value={disco}
                 onChange={(e) => setDisco(e.target.value)}
-                className="w-full px-4 py-4 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-green-500 bg-white"
+                className="w-full px-4 py-5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-green-500 bg-white"
               >
                 <option value="">Select DISCO</option>
                 {DISCOS.map((d) => (
@@ -122,25 +122,25 @@ export default function BillsPage() {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2.5">Meter Number</label>
+              <label className="block text-sm font-medium text-gray-700 mb-3">Meter Number</label>
               <input
                 type="tel"
                 value={meter}
                 onChange={(e) => setMeter(e.target.value.replace(/\D/g, '').slice(0, 13))}
                 placeholder="Enter meter number"
-                className="w-full px-4 py-4 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-green-500"
+                className="w-full px-4 py-5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-green-500"
               />
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2.5">Amount (₦)</label>
+              <label className="block text-sm font-medium text-gray-700 mb-3">Amount (₦)</label>
               <input
                 type="number"
                 value={amount}
                 onChange={(e) => setAmount(e.target.value)}
                 placeholder="Minimum ₦500"
                 min="500"
-                className="w-full px-4 py-4 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-green-500"
+                className="w-full px-4 py-5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-green-500"
               />
               <div className="flex gap-2 mt-2">
                 {[1000, 2000, 5000, 10000].map((amt) => (
@@ -155,7 +155,7 @@ export default function BillsPage() {
             <button
               type="submit"
               disabled={loading}
-              className="w-full bg-green-600 hover:bg-green-700 text-white font-semibold py-4 rounded-xl transition-colors disabled:opacity-70 flex items-center justify-center"
+              className="w-full bg-green-600 hover:bg-green-700 text-white font-semibold py-5 rounded-xl transition-colors disabled:opacity-70 flex items-center justify-center"
             >
               {loading ? <span className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" /> : 'Pay Electricity Bill'}
             </button>

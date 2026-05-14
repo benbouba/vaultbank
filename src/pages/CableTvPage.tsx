@@ -89,7 +89,7 @@ export default function CableTvPage() {
         </div>
 
         <div className="bg-white rounded-3xl p-6 shadow-sm">
-          <form onSubmit={handleSubmit} className="space-y-5">
+          <form onSubmit={handleSubmit} className="space-y-7">
             {error && <div className="px-4 py-3 bg-red-50 border border-red-200 rounded-xl text-sm text-red-600">{error}</div>}
 
             <div>
@@ -113,13 +113,13 @@ export default function CableTvPage() {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2.5">Smart Card / IUC Number</label>
+              <label className="block text-sm font-medium text-gray-700 mb-3">Smart Card / IUC Number</label>
               <input
                 type="tel"
                 value={cardNumber}
                 onChange={(e) => setCardNumber(e.target.value.replace(/\D/g, '').slice(0, 13))}
                 placeholder="Enter card number"
-                className="w-full px-4 py-4 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-green-500"
+                className="w-full px-4 py-5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-green-500"
               />
             </div>
 
@@ -147,7 +147,7 @@ export default function CableTvPage() {
             <button
               type="submit"
               disabled={loading}
-              className="w-full bg-green-600 hover:bg-green-700 text-white font-semibold py-4 rounded-xl transition-colors disabled:opacity-70 flex items-center justify-center"
+              className="w-full bg-green-600 hover:bg-green-700 text-white font-semibold py-5 rounded-xl transition-colors disabled:opacity-70 flex items-center justify-center"
             >
               {loading ? <span className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" /> : `Pay ${selectedPlan ? formatCurrency(selectedPlan.price) : ''}`}
             </button>

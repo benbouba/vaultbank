@@ -42,16 +42,16 @@ export default function LoginPage() {
         <p className="text-green-200 text-sm mt-3">Sign in to access your account</p>
       </div>
 
-      <div className="flex-1 bg-white px-6 pt-8 pb-12">
+      <div className="flex-1 bg-white px-6 pt-10 pb-12" style={{boxShadow:'0 -8px 24px rgba(0,0,0,0.06)'}}>
         {error && (
           <div className="mb-5 px-4 py-3 bg-red-50 border border-red-100 rounded-2xl text-sm text-red-600 font-medium">
             {error}
           </div>
         )}
 
-        <form onSubmit={handleSubmit} className="space-y-6">
+        <form onSubmit={handleSubmit} className="space-y-8">
           <div>
-            <label className="block text-sm font-semibold text-gray-600 mb-2">
+            <label className="block text-sm font-semibold text-gray-700 mb-3">
               Phone Number
             </label>
             <input
@@ -63,12 +63,12 @@ export default function LoginPage() {
               }}
               placeholder="08012345678"
               maxLength={11}
-              className="w-full px-4 py-[14px] bg-gray-50 border-2 border-gray-100 rounded-2xl text-base font-medium text-gray-900 placeholder-gray-400 focus:outline-none focus:border-green-500 focus:bg-white transition-all"
+              className="w-full px-5 py-5 bg-gray-50 border-2 border-gray-100 rounded-2xl text-base font-medium text-gray-900 placeholder-gray-400 focus:outline-none focus:border-green-500 focus:bg-white transition-all"
             />
           </div>
 
           <div>
-            <label className="block text-sm font-semibold text-gray-600 mb-2">
+            <label className="block text-sm font-semibold text-gray-700 mb-3">
               PIN
             </label>
             <div className="relative">
@@ -80,7 +80,7 @@ export default function LoginPage() {
                   setError('');
                 }}
                 placeholder="Enter your PIN"
-                className="w-full px-4 py-[14px] bg-gray-50 border-2 border-gray-100 rounded-2xl text-base font-medium text-gray-900 placeholder-gray-400 focus:outline-none focus:border-green-500 focus:bg-white transition-all pr-12"
+                className="w-full px-5 py-5 bg-gray-50 border-2 border-gray-100 rounded-2xl text-base font-medium text-gray-900 placeholder-gray-400 focus:outline-none focus:border-green-500 focus:bg-white transition-all pr-14"
               />
               <button
                 type="button"
@@ -100,7 +100,7 @@ export default function LoginPage() {
           <button
             type="submit"
             disabled={loading}
-            className="w-full bg-green-600 hover:bg-green-700 active:bg-green-800 text-white font-bold py-[15px] rounded-2xl flex items-center justify-center gap-2 transition-colors mt-4 text-base shadow-lg shadow-green-200 disabled:opacity-60"
+            className="w-full bg-green-600 hover:bg-green-700 active:bg-green-800 text-white font-bold py-5 rounded-2xl flex items-center justify-center gap-2 transition-colors mt-2 text-base shadow-lg shadow-green-200 disabled:opacity-60"
           >
             {loading ? (
               <span className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
@@ -116,7 +116,7 @@ export default function LoginPage() {
           <div className="flex-1 h-px bg-gray-100" />
         </div>
 
-        <button className="w-full flex items-center justify-center gap-3 py-4 rounded-2xl border-2 border-gray-100 text-gray-600 font-semibold text-sm hover:border-green-200 hover:text-green-700 transition-all">
+        <button className="w-full flex items-center justify-center gap-3 py-5 rounded-2xl border-2 border-gray-100 text-gray-600 font-semibold text-sm hover:border-green-200 hover:text-green-700 transition-all">
           Use Biometrics / Face ID
         </button>
 

@@ -14,7 +14,7 @@ export default function AppLayout({ children, title }: AppLayoutProps) {
       <Sidebar />
       <div className="flex-1 flex flex-col overflow-hidden">
         <TopBar title={title} />
-        <main className="flex-1 overflow-y-auto pb-20 lg:pb-6 px-4 lg:px-6 py-4">
+        <main className="flex-1 overflow-y-auto pb-24 lg:pb-8 px-4 lg:px-6 py-6">
           {children}
         </main>
       </div>

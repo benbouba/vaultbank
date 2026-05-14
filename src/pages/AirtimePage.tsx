@@ -113,14 +113,14 @@ export default function AirtimePage() {
 
   return (
     <AppLayout title="Airtime & Data">
-      <div className="max-w-md mx-auto space-y-4">
+      <div className="max-w-md mx-auto space-y-5">
         {/* Balance chip */}
         <div className="bg-green-50 border border-green-100 rounded-2xl px-4 py-3 flex items-center justify-between">
           <span className="text-sm text-gray-600">Available Balance</span>
           <span className="font-bold text-green-700">{formatCurrency(account?.balance ?? 0)}</span>
         </div>
 
-        <div className="bg-white rounded-3xl p-5 shadow-sm">
+        <div className="bg-white rounded-3xl p-6 shadow-sm">
           {/* Mode toggle */}
           <div className="flex bg-gray-100 rounded-xl p-1 mb-5">
             {(['airtime', 'data'] as Mode[]).map((m) => (
@@ -136,7 +136,7 @@ export default function AirtimePage() {
             ))}
           </div>
 
-          <form onSubmit={handleSubmit} className="space-y-4">
+          <form onSubmit={handleSubmit} className="space-y-5">
             {error && <div className="px-4 py-3 bg-red-50 border border-red-200 rounded-xl text-sm text-red-600">{error}</div>}
 
             {/* Network */}
@@ -160,26 +160,26 @@ export default function AirtimePage() {
 
             {/* Phone */}
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1.5">Phone Number</label>
+              <label className="block text-sm font-medium text-gray-700 mb-2.5">Phone Number</label>
               <input
                 type="tel"
                 value={phone}
                 onChange={(e) => setPhone(e.target.value.replace(/\D/g, '').slice(0, 11))}
                 placeholder="08012345678"
-                className="w-full px-4 py-3 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-green-500"
+                className="w-full px-4 py-4 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-green-500"
               />
             </div>
 
             {mode === 'airtime' ? (
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1.5">Amount (₦)</label>
+                <label className="block text-sm font-medium text-gray-700 mb-2.5">Amount (₦)</label>
                 <input
                   type="number"
                   value={amount}
                   onChange={(e) => setAmount(e.target.value)}
                   placeholder="0.00"
                   min="50"
-                  className="w-full px-4 py-3 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-green-500"
+                  className="w-full px-4 py-4 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-green-500"
                 />
                 <div className="flex gap-2 mt-2">
                   {[100, 200, 500, 1000].map((amt) => (
@@ -220,7 +220,7 @@ export default function AirtimePage() {
             <button
               type="submit"
               disabled={loading}
-              className="w-full bg-green-600 hover:bg-green-700 text-white font-semibold py-3 rounded-xl transition-colors disabled:opacity-70 flex items-center justify-center"
+              className="w-full bg-green-600 hover:bg-green-700 text-white font-semibold py-4 rounded-xl transition-colors disabled:opacity-70 flex items-center justify-center"
             >
               {loading ? (
                 <span className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />

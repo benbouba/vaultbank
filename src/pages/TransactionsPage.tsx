@@ -48,7 +48,7 @@ export default function TransactionsPage() {
 
   return (
     <AppLayout title="Transactions">
-      <div className="max-w-2xl mx-auto space-y-4">
+      <div className="max-w-2xl mx-auto space-y-5">
         {/* Search */}
         <div className="bg-white rounded-2xl shadow-sm flex items-center gap-3 px-4 py-3">
           <Search size={16} className="text-gray-400 shrink-0" />

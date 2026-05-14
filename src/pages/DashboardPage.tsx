@@ -56,9 +56,9 @@ export default function DashboardPage() {
 
   return (
     <AppLayout title="Dashboard">
-      <div className="max-w-2xl mx-auto space-y-5">
+      <div className="max-w-2xl mx-auto space-y-6">
         {/* Balance Card */}
-        <div className="relative rounded-3xl overflow-hidden bg-gradient-to-br from-green-600 via-emerald-600 to-teal-700 p-6 text-white shadow-xl">
+        <div className="relative rounded-3xl overflow-hidden bg-gradient-to-br from-green-600 via-emerald-600 to-teal-700 p-7 text-white shadow-xl">
           {/* Decorative circles */}
           <div className="absolute -top-8 -right-8 w-32 h-32 bg-white/10 rounded-full" />
           <div className="absolute -bottom-10 -left-10 w-40 h-40 bg-white/5 rounded-full" />
@@ -91,7 +91,7 @@ export default function DashboardPage() {
             </div>
 
             {/* In/Out stats */}
-            <div className="grid grid-cols-2 gap-3 mt-4">
+            <div className="grid grid-cols-2 gap-4 mt-5">
               <div className="bg-white/15 rounded-2xl px-4 py-3 backdrop-blur-sm">
                 <div className="flex items-center gap-2 mb-1">
                   <div className="w-6 h-6 bg-green-400/30 rounded-full flex items-center justify-center">
@@ -120,16 +120,16 @@ export default function DashboardPage() {
         </div>
 
         {/* Quick Actions */}
-        <div className="bg-white rounded-3xl p-5 shadow-sm">
-          <h2 className="font-semibold text-gray-900 mb-4 text-sm">Quick Actions</h2>
-          <div className="grid grid-cols-3 sm:grid-cols-6 gap-3">
+        <div className="bg-white rounded-3xl p-6 shadow-sm">
+          <h2 className="font-semibold text-gray-900 mb-5 text-sm">Quick Actions</h2>
+          <div className="grid grid-cols-3 sm:grid-cols-6 gap-4">
             {quickActions.map(({ icon: Icon, label, to, color }) => (
               <button
                 key={label}
                 onClick={() => navigate(to)}
                 className="flex flex-col items-center gap-2 group"
               >
-                <div className={`w-12 h-12 rounded-2xl flex items-center justify-center ${color} group-hover:scale-105 transition-transform`}>
+                <div className={`w-14 h-14 rounded-2xl flex items-center justify-center ${color} group-hover:scale-105 transition-transform`}>
                   <Icon size={20} />
                 </div>
                 <span className="text-xs text-gray-600 font-medium text-center leading-tight">{label}</span>
@@ -150,8 +150,8 @@ export default function DashboardPage() {
         </div>
 
         {/* Recent Transactions */}
-        <div className="bg-white rounded-3xl p-5 shadow-sm">
-          <div className="flex items-center justify-between mb-4">
+        <div className="bg-white rounded-3xl p-6 shadow-sm">
+          <div className="flex items-center justify-between mb-5">
             <h2 className="font-semibold text-gray-900 text-sm">Recent Transactions</h2>
             <button
               onClick={() => navigate('/transactions')}
@@ -164,12 +164,12 @@ export default function DashboardPage() {
           {recentTx.length === 0 ? (
             <div className="text-center py-8 text-gray-400 text-sm">No transactions yet</div>
           ) : (
-            <div className="space-y-3">
+            <div className="space-y-4">
               {recentTx.map((tx) => {
                 const isCredit = tx.amount > 0;
                 return (
                   <div key={tx.id} className="flex items-center gap-3">
-                    <div className={`w-10 h-10 rounded-2xl flex items-center justify-center shrink-0 ${
+                    <div className={`w-11 h-11 rounded-2xl flex items-center justify-center shrink-0 ${
                       isCredit ? 'bg-green-50' : 'bg-red-50'
                     }`}>
                       {isCredit

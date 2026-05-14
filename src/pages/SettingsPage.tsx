@@ -49,7 +49,7 @@ export default function SettingsPage() {
 
   return (
     <AppLayout title="Settings">
-      <div className="max-w-md mx-auto space-y-4">
+      <div className="max-w-md mx-auto space-y-5">
         {/* Profile card */}
         <div className="bg-gradient-to-br from-green-600 to-emerald-600 rounded-3xl p-6 text-white">
           <div className="flex items-center gap-4">
@@ -87,7 +87,7 @@ export default function SettingsPage() {
         </div>
 
         {/* BVN & KYC */}
-        <div className="bg-white rounded-3xl p-5 shadow-sm">
+        <div className="bg-white rounded-3xl p-6 shadow-sm">
           <p className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-3">Identity Verification</p>
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
@@ -118,7 +118,7 @@ export default function SettingsPage() {
         </div>
 
         {/* Balance summary */}
-        <div className="bg-white rounded-3xl p-5 shadow-sm">
+        <div className="bg-white rounded-3xl p-6 shadow-sm">
           <p className="text-sm text-gray-500 mb-1">Available Balance</p>
           <p className="text-2xl font-black text-gray-900">{formatCurrency(account?.balance ?? 0)}</p>
         </div>

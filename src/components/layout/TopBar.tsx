@@ -13,7 +13,7 @@ export default function TopBar({ title }: TopBarProps) {
   const unread = notifications.filter((n) => !n.read).length;
 
   return (
-    <header className="bg-white border-b border-gray-100 px-4 lg:px-6 py-4 flex items-center justify-between sticky top-0 z-10 shadow-sm">
+    <header className="bg-white border-b border-gray-100 px-4 lg:px-6 py-5 flex items-center justify-between sticky top-0 z-10 shadow-sm">
       <h1 className="text-lg font-bold text-gray-900">{title}</h1>
 
       <div className="flex items-center gap-3">

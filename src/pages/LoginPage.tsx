@@ -31,27 +31,27 @@ export default function LoginPage() {
 
   return (
     <div className="min-h-screen bg-white flex flex-col">
-      <div className="bg-gradient-to-br from-green-600 to-emerald-500 px-6 pt-8 pb-10">
-        <div className="flex items-center gap-3 mb-4">
+      <div className="bg-gradient-to-br from-green-600 to-emerald-500 px-6 pt-16 pb-12">
+        <div className="flex items-center gap-3 mb-6">
           <div className="w-10 h-10 bg-white rounded-2xl flex items-center justify-center shadow-md">
             <span className="text-green-600 font-black text-base">VB</span>
           </div>
           <span className="text-white font-black text-xl tracking-tight">VaultBank</span>
         </div>
         <h1 className="text-2xl font-black text-white leading-tight">Welcome back</h1>
-        <p className="text-green-200 text-sm mt-2">Sign in to access your account</p>
+        <p className="text-green-200 text-sm mt-3">Sign in to access your account</p>
       </div>
 
-      <div className="flex-1 bg-white px-6 pt-6 pb-10">
+      <div className="flex-1 bg-white px-6 pt-8 pb-12">
         {error && (
           <div className="mb-5 px-4 py-3 bg-red-50 border border-red-100 rounded-2xl text-sm text-red-600 font-medium">
             {error}
           </div>
         )}
 
-        <form onSubmit={handleSubmit} className="space-y-4">
+        <form onSubmit={handleSubmit} className="space-y-6">
           <div>
-            <label className="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">
+            <label className="block text-sm font-semibold text-gray-600 mb-2">
               Phone Number
             </label>
             <input
@@ -63,12 +63,12 @@ export default function LoginPage() {
               }}
               placeholder="08012345678"
               maxLength={11}
-              className="w-full px-4 py-4 bg-gray-50 border-2 border-gray-100 rounded-2xl text-sm font-medium text-gray-900 placeholder-gray-400 focus:outline-none focus:border-green-500 focus:bg-white transition-all"
+              className="w-full px-4 py-[14px] bg-gray-50 border-2 border-gray-100 rounded-2xl text-base font-medium text-gray-900 placeholder-gray-400 focus:outline-none focus:border-green-500 focus:bg-white transition-all"
             />
           </div>
 
           <div>
-            <label className="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">
+            <label className="block text-sm font-semibold text-gray-600 mb-2">
               PIN
             </label>
             <div className="relative">
@@ -80,7 +80,7 @@ export default function LoginPage() {
                   setError('');
                 }}
                 placeholder="Enter your PIN"
-                className="w-full px-4 py-4 bg-gray-50 border-2 border-gray-100 rounded-2xl text-sm font-medium text-gray-900 placeholder-gray-400 focus:outline-none focus:border-green-500 focus:bg-white transition-all pr-12"
+                className="w-full px-4 py-[14px] bg-gray-50 border-2 border-gray-100 rounded-2xl text-base font-medium text-gray-900 placeholder-gray-400 focus:outline-none focus:border-green-500 focus:bg-white transition-all pr-12"
               />
               <button
                 type="button"
@@ -100,7 +100,7 @@ export default function LoginPage() {
           <button
             type="submit"
             disabled={loading}
-            className="w-full bg-green-600 hover:bg-green-700 active:bg-green-800 text-white font-bold py-4 rounded-2xl flex items-center justify-center gap-2 transition-colors mt-2 text-base shadow-lg shadow-green-200 disabled:opacity-60"
+            className="w-full bg-green-600 hover:bg-green-700 active:bg-green-800 text-white font-bold py-[15px] rounded-2xl flex items-center justify-center gap-2 transition-colors mt-4 text-base shadow-lg shadow-green-200 disabled:opacity-60"
           >
             {loading ? (
               <span className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
@@ -110,7 +110,7 @@ export default function LoginPage() {
           </button>
         </form>
 
-        <div className="flex items-center gap-3 my-8">
+        <div className="flex items-center gap-3 my-10">
           <div className="flex-1 h-px bg-gray-100" />
           <span className="text-xs text-gray-400 font-medium">or</span>
           <div className="flex-1 h-px bg-gray-100" />

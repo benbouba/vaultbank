@@ -25,7 +25,7 @@ export default function SavingsPage() {
 
   return (
     <AppLayout title="Savings">
-      <div className="max-w-2xl mx-auto space-y-4">
+      <div className="max-w-2xl mx-auto space-y-5">
         {/* Balance chip */}
         <div className="bg-green-50 border border-green-100 rounded-2xl px-4 py-3 flex items-center justify-between">
           <span className="text-sm text-gray-600">Available Balance</span>
@@ -46,7 +46,7 @@ export default function SavingsPage() {
           const isActive = activeGoal === goal.id;
 
           return (
-            <div key={goal.id} className="bg-white rounded-3xl p-5 shadow-sm">
+            <div key={goal.id} className="bg-white rounded-3xl p-6 shadow-sm">
               <div className="flex items-start justify-between mb-3">
                 <div className="flex items-center gap-3">
                   <span className="text-2xl">{goal.emoji}</span>

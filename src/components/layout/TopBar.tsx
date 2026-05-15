@@ -3,45 +3,36 @@ import { useNavigate } from 'react-router-dom';
 import { useBankStore } from '../../store/bankStore';
 import { getInitials } from '../../utils';
 
-interface TopBarProps {
-  title: string;
-}
-
-export default function TopBar({ title }: TopBarProps) {
+export default function TopBar({ title }: { title: string }) {
   const { user, notifications } = useBankStore();
   const navigate = useNavigate();
   const unread = notifications.filter((n) => !n.read).length;
 
   return (
-    <header className="bg-white border-b border-gray-100 px-4 lg:px-6 py-5 flex items-center justify-between sticky top-0 z-10 shadow-sm">
-      <h1 className="text-lg font-bold text-gray-900">{title}</h1>
-
-      <div className="flex items-center gap-3">
-        <button className="w-9 h-9 flex items-center justify-center rounded-full text-gray-500 hover:bg-gray-100 transition-colors">
+    <div className="navbar bg-base-100 border-b border-base-200 px-4 lg:px-6 sticky top-0 z-10 min-h-14 shadow-sm">
+      <div className="navbar-start">
+        <h1 className="text-base font-bold">{title}</h1>
+      </div>
+      <div className="navbar-end gap-1">
+        <button className="btn btn-ghost btn-circle btn-sm">
           <Search size={18} />
         </button>
-
-        <button
-          onClick={() => navigate('/notifications')}
-          className="relative w-9 h-9 flex items-center justify-center rounded-full text-gray-500 hover:bg-gray-100 transition-colors"
-        >
+        <button onClick={() => navigate('/notifications')} className="btn btn-ghost btn-circle btn-sm relative">
           <Bell size={18} />
           {unread > 0 && (
-            <span className="absolute top-1 right-1 w-4 h-4 bg-red-500 text-white text-[10px] font-bold rounded-full flex items-center justify-center">
+            <span className="badge badge-error badge-xs absolute top-0.5 right-0.5 min-w-[14px] h-[14px] p-0 text-[9px]">
               {unread > 9 ? '9+' : unread}
             </span>
           )}
         </button>
-
         {user && (
-          <button
-            onClick={() => navigate('/profile')}
-            className="w-9 h-9 rounded-full bg-green-600 flex items-center justify-center text-white text-sm font-semibold"
-          >
-            {getInitials(user.firstName, user.lastName)}
+          <button onClick={() => navigate('/profile')} className="avatar placeholder ml-1">
+            <div className="bg-primary text-primary-content rounded-full w-8">
+              <span className="text-xs font-semibold">{getInitials(user.firstName, user.lastName)}</span>
+            </div>
           </button>
         )}
       </div>
-    </header>
+    </div>
   );
 }

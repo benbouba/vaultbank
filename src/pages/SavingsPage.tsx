@@ -14,7 +14,7 @@ export default function SavingsPage() {
   const handleTopUp = (goalId: string) => {
     setError('');
     const amt = parseFloat(topUpAmount);
-    if (!amt || amt < 100) { setError('Minimum top-up is ₦100.'); return; }
+    if (!amt || amt < 100) { setError('Minimum top-up is \u20a6100.'); return; }
     if (account && amt > account.balance) { setError('Insufficient balance.'); return; }
     addToSavingsGoal(goalId, amt);
     setSuccess(goalId);
@@ -26,102 +26,106 @@ export default function SavingsPage() {
   return (
     <AppLayout title="Savings">
       <div className="max-w-2xl mx-auto space-y-5">
-        {/* Balance chip */}
-        <div className="bg-green-50 border border-green-100 rounded-2xl px-4 py-3 flex items-center justify-between">
-          <span className="text-sm text-gray-600">Available Balance</span>
-          <span className="font-bold text-green-700">{formatCurrency(account?.balance ?? 0)}</span>
+
+        <div className="alert bg-primary/10 border-primary/20">
+          <span className="text-sm text-base-content/70">Available Balance</span>
+          <span className="font-bold text-primary ml-auto">{formatCurrency(account?.balance ?? 0)}</span>
         </div>
 
-        {/* Promo */}
-        <div className="bg-gradient-to-r from-green-600 to-emerald-600 rounded-3xl p-5 text-white">
-          <Target size={20} className="mb-2 text-green-200" />
+        <div className="bg-gradient-to-r from-primary to-green-700 rounded-3xl p-5 text-primary-content shadow-md">
+          <Target size={20} className="mb-2 text-primary-content/60" />
           <p className="font-bold text-lg">Your Savings Goals</p>
-          <p className="text-green-100 text-xs mt-1">Stay consistent, reach your goals faster</p>
+          <p className="text-primary-content/70 text-xs mt-1">Stay consistent, reach your goals faster</p>
         </div>
 
-        {/* Goals */}
+        {success && (
+          <div role="alert" className="alert alert-success">
+            <span className="text-sm font-semibold">Top-up successful!</span>
+          </div>
+        )}
+
         {savingsGoals.map((goal) => {
           const progress = Math.min((goal.savedAmount / goal.targetAmount) * 100, 100);
           const isComplete = goal.savedAmount >= goal.targetAmount;
           const isActive = activeGoal === goal.id;
 
           return (
-            <div key={goal.id} className="bg-white rounded-3xl p-6 shadow-sm">
-              <div className="flex items-start justify-between mb-3">
-                <div className="flex items-center gap-3">
-                  <span className="text-2xl">{goal.emoji}</span>
-                  <div>
-                    <p className="font-semibold text-gray-900">{goal.name}</p>
-                    <p className="text-xs text-gray-500">Target: {formatCurrency(goal.targetAmount)}</p>
+            <div key={goal.id} className="card bg-base-100 shadow-sm">
+              <div className="card-body p-5">
+                <div className="flex items-start justify-between mb-3">
+                  <div className="flex items-center gap-3">
+                    <span className="text-2xl">{goal.emoji}</span>
+                    <div>
+                      <p className="font-semibold">{goal.name}</p>
+                      <p className="text-xs text-base-content/50">Target: {formatCurrency(goal.targetAmount)}</p>
+                    </div>
                   </div>
+                  {isComplete ? (
+                    <span className="badge badge-success">Completed</span>
+                  ) : (
+                    <button
+                      onClick={() => { setActiveGoal(isActive ? null : goal.id); setError(''); setTopUpAmount(''); }}
+                      className="btn btn-primary btn-xs gap-1"
+                    >
+                      <Plus size={12} /> Top Up
+                    </button>
+                  )}
                 </div>
-                {isComplete ? (
-                  <span className="text-xs bg-green-100 text-green-700 font-bold px-3 py-1 rounded-full">Completed ✓</span>
-                ) : (
-                  <button
-                    onClick={() => { setActiveGoal(isActive ? null : goal.id); setError(''); setTopUpAmount(''); }}
-                    className="text-xs bg-green-600 hover:bg-green-700 text-white font-semibold px-3 py-1.5 rounded-full flex items-center gap-1 transition-colors"
-                  >
-                    <Plus size={12} /> Top Up
-                  </button>
-                )}
-              </div>
 
-              {/* Progress bar */}
-              <div className="mb-2">
-                <div className="flex justify-between text-xs text-gray-500 mb-1.5">
-                  <span>{formatCurrency(goal.savedAmount)} saved</span>
-                  <span>{progress.toFixed(0)}%</span>
-                </div>
-                <div className="h-2.5 bg-gray-100 rounded-full overflow-hidden">
-                  <div
-                    className={`h-full rounded-full transition-all duration-500 ${isComplete ? 'bg-green-500' : 'bg-gradient-to-r from-green-500 to-emerald-500'}`}
-                    style={{ width: `${progress}%` }}
+                <div className="mb-3">
+                  <div className="flex justify-between text-xs text-base-content/60 mb-1.5">
+                    <span>{formatCurrency(goal.savedAmount)} saved</span>
+                    <span>{progress.toFixed(0)}%</span>
+                  </div>
+                  <progress
+                    className={`progress w-full ${isComplete ? 'progress-success' : 'progress-primary'}`}
+                    value={progress} max="100"
                   />
                 </div>
-              </div>
 
-              {success === goal.id && (
-                <p className="text-xs text-green-600 font-semibold mt-2">Top-up successful! 🎉</p>
-              )}
+                <p className="text-xs text-base-content/50">
+                  {isComplete ? 'Goal reached!' : `\u20a6${formatCurrency(goal.targetAmount - goal.savedAmount)} remaining`}
+                </p>
 
-              {/* Top-up form */}
-              {isActive && !isComplete && (
-                <div className="mt-4 pt-4 border-t border-gray-100">
-                  {error && <p className="text-xs text-red-600 mb-2">{error}</p>}
-                  <div className="flex gap-2">
-                    <input
-                      type="number"
-                      value={topUpAmount}
-                      onChange={(e) => setTopUpAmount(e.target.value)}
-                      placeholder="Amount (₦)"
-                      min="100"
-                      className="flex-1 px-3 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-green-500"
-                    />
-                    <button
-                      onClick={() => handleTopUp(goal.id)}
-                      className="bg-green-600 hover:bg-green-700 text-white font-semibold px-4 py-2.5 rounded-xl text-sm transition-colors"
-                    >
-                      Add
+                {isActive && !isComplete && (
+                  <div className="mt-4 pt-4 border-t border-base-200">
+                    {error && <div role="alert" className="alert alert-error alert-sm mb-3 text-xs"><span>{error}</span></div>}
+                    <fieldset className="fieldset">
+                      <legend className="fieldset-legend text-sm font-semibold">Amount to add (\u20a6)</legend>
+                      <input
+                        type="number" value={topUpAmount}
+                        onChange={(e) => setTopUpAmount(e.target.value)}
+                        placeholder="Min \u20a6100" min="100"
+                        className="input input-lg w-full"
+                      />
+                      <div className="flex gap-2 mt-2">
+                        {[500, 1000, 2000, 5000].map((amt) => (
+                          <button key={amt} type="button" onClick={() => setTopUpAmount(String(amt))} className="btn btn-xs btn-outline">
+                            \u20a6{(amt / 1000).toFixed(amt < 1000 ? 1 : 0)}{amt >= 1000 ? 'k' : ''}
+                          </button>
+                        ))}
+                      </div>
+                    </fieldset>
+                    <button onClick={() => handleTopUp(goal.id)} className="btn btn-primary w-full mt-3">
+                      Add to Goal
                     </button>
                   </div>
-                  <div className="flex gap-2 mt-2">
-                    {[1000, 5000, 10000].map((amt) => (
-                      <button
-                        key={amt}
-                        type="button"
-                        onClick={() => setTopUpAmount(String(amt))}
-                        className="text-xs bg-gray-100 hover:bg-green-100 hover:text-green-700 text-gray-600 px-3 py-1 rounded-full transition-colors"
-                      >
-                        ₦{(amt / 1000).toFixed(0)}k
-                      </button>
-                    ))}
-                  </div>
-                </div>
-              )}
+                )}
+              </div>
             </div>
           );
         })}
+
+        {savingsGoals.length === 0 && (
+          <div className="card bg-base-100 shadow-sm">
+            <div className="card-body items-center text-center py-12">
+              <Target size={40} className="text-base-content/20 mb-3" />
+              <p className="text-base-content/50 text-sm">No savings goals yet</p>
+              <p className="text-xs text-base-content/40 mt-1">Goals will appear here once set up</p>
+            </div>
+          </div>
+        )}
+
       </div>
     </AppLayout>
   );

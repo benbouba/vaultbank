@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import { Eye, EyeOff, ArrowRight } from 'lucide-react';
+import { Eye, EyeOff, ArrowRight, Fingerprint } from 'lucide-react';
 import { useBankStore } from '../store/bankStore';
 
 export default function LoginPage() {
@@ -15,119 +15,103 @@ export default function LoginPage() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
-    if (!phone || !pin) {
-      setError('Please fill in all fields.');
-      return;
-    }
+    if (!phone || !pin) { setError('Please fill in all fields.'); return; }
     setLoading(true);
     const success = await login(phone, pin);
     setLoading(false);
-    if (success) {
-      navigate('/dashboard');
-    } else {
-      setError('Invalid phone number or PIN. Please try again.');
-    }
+    if (success) navigate('/dashboard');
+    else setError('Invalid phone number or PIN. Please try again.');
   };
 
   return (
-    <div className="min-h-screen bg-gray-100 flex justify-center">
-      <div className="w-full max-w-sm min-h-screen bg-white flex flex-col">
-      <div className="bg-gradient-to-br from-green-600 to-emerald-500" style={{paddingLeft:'28px',paddingRight:'28px',paddingTop:'64px',paddingBottom:'56px'}}>
-        <div className="flex items-center gap-3 mb-6">
-          <div className="w-10 h-10 bg-white rounded-2xl flex items-center justify-center shadow-md">
-            <span className="text-green-600 font-black text-base">VB</span>
+    <div className="min-h-screen bg-base-200 flex justify-center">
+      <div className="w-full max-w-sm min-h-screen bg-base-100 flex flex-col">
+
+        <div className="bg-primary text-primary-content px-7 pt-16 pb-20">
+          <div className="flex items-center gap-3 mb-8">
+            <div className="w-10 h-10 bg-primary-content rounded-2xl flex items-center justify-center shadow-md">
+              <span className="text-primary font-black text-base">VB</span>
+            </div>
+            <span className="font-black text-xl tracking-tight">VaultBank</span>
           </div>
-          <span className="text-white font-black text-xl tracking-tight">VaultBank</span>
+          <h1 className="text-3xl font-black leading-tight">Welcome back</h1>
+          <p className="text-primary-content/70 text-sm mt-2">Sign in to access your account</p>
         </div>
-        <h1 className="text-2xl font-black text-white leading-tight">Welcome back</h1>
-        <p className="text-green-200 text-sm mt-3">Sign in to access your account</p>
-      </div>
 
-      <div className="flex-1 bg-white overflow-y-auto" style={{boxShadow:'0 -8px 24px rgba(0,0,0,0.06)', padding:'56px 28px 64px'}}>
-        {error && (
-          <div className="mb-5 px-4 py-3 bg-red-50 border border-red-100 rounded-2xl text-sm text-red-600 font-medium">
-            {error}
-          </div>
-        )}
+        <div
+          className="flex-1 bg-base-100 overflow-y-auto"
+          style={{ borderRadius: '28px 28px 0 0', marginTop: '-28px', padding: '40px 28px 64px', boxShadow: '0 -8px 32px rgba(0,0,0,0.08)' }}
+        >
+          {error && (
+            <div role="alert" className="alert alert-error mb-6">
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 shrink-0 stroke-current" fill="none" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+              <span className="text-sm">{error}</span>
+            </div>
+          )}
 
-        <form onSubmit={handleSubmit} style={{display:'flex',flexDirection:'column',gap:'40px'}}>
-          <div>
-            <label className="block text-sm font-semibold text-gray-700" style={{marginBottom:'20px'}}>
-              Phone Number
-            </label>
-            <input
-              type="tel"
-              value={phone}
-              onChange={(e) => {
-                setPhone(e.target.value.replace(/\D/g, '').slice(0, 11));
-                setError('');
-              }}
-              placeholder="08012345678"
-              maxLength={11}
-              className="w-full px-5 py-5 bg-gray-50 border-2 border-gray-100 rounded-2xl text-base font-medium text-gray-900 placeholder-gray-400 focus:outline-none focus:border-green-500 focus:bg-white transition-all"
-            />
-          </div>
-
-          <div>
-            <label className="block text-sm font-semibold text-gray-700" style={{marginBottom:'20px'}}>
-              PIN
-            </label>
-            <div className="relative">
+          <form onSubmit={handleSubmit} className="flex flex-col gap-6">
+            <fieldset className="fieldset">
+              <legend className="fieldset-legend text-sm font-semibold">Phone Number</legend>
               <input
-                type={showPin ? 'text' : 'password'}
-                value={pin}
-                onChange={(e) => {
-                  setPin(e.target.value.replace(/\D/g, '').slice(0, 6));
-                  setError('');
-                }}
-                placeholder="Enter your PIN"
-                className="w-full px-5 py-5 bg-gray-50 border-2 border-gray-100 rounded-2xl text-base font-medium text-gray-900 placeholder-gray-400 focus:outline-none focus:border-green-500 focus:bg-white transition-all pr-14"
+                type="tel"
+                value={phone}
+                onChange={(e) => { setPhone(e.target.value.replace(/\D/g, '').slice(0, 11)); setError(''); }}
+                placeholder="08012345678"
+                maxLength={11}
+                className="input input-lg w-full"
               />
-              <button
-                type="button"
-                onClick={() => setShowPin(!showPin)}
-                className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-700 transition-colors"
-              >
-                {showPin ? <EyeOff size={18} /> : <Eye size={18} />}
-              </button>
-            </div>
-            <div className="flex justify-end mt-2">
-              <a href="#" className="text-xs text-green-600 font-semibold hover:underline">
-                Forgot PIN?
-              </a>
-            </div>
-          </div>
+            </fieldset>
 
-          <button
-            type="submit"
-            disabled={loading}
-            className="w-full bg-green-600 hover:bg-green-700 active:bg-green-800 text-white font-bold py-5 rounded-2xl flex items-center justify-center gap-2 transition-colors mt-2 text-base shadow-lg shadow-green-200 disabled:opacity-60"
-          >
-            {loading ? (
-              <span className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
-            ) : (
-              <>Sign In <ArrowRight size={18} /></>
-            )}
+            <fieldset className="fieldset">
+              <legend className="fieldset-legend text-sm font-semibold">PIN</legend>
+              <div className="relative">
+                <input
+                  type={showPin ? 'text' : 'password'}
+                  value={pin}
+                  onChange={(e) => { setPin(e.target.value.replace(/\D/g, '').slice(0, 6)); setError(''); }}
+                  placeholder="Enter your PIN"
+                  className="input input-lg w-full pr-12"
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowPin(!showPin)}
+                  className="absolute right-3 top-1/2 -translate-y-1/2 btn btn-ghost btn-sm btn-circle"
+                >
+                  {showPin ? <EyeOff size={18} /> : <Eye size={18} />}
+                </button>
+              </div>
+              <div className="fieldset-label justify-end mt-1">
+                <a href="#" className="link link-primary text-xs font-semibold">Forgot PIN?</a>
+              </div>
+            </fieldset>
+
+            <button
+              type="submit"
+              disabled={loading}
+              className="btn btn-primary btn-lg w-full mt-2"
+            >
+              {loading
+                ? <span className="loading loading-spinner loading-sm" />
+                : <><span>Sign In</span><ArrowRight size={18} /></>
+              }
+            </button>
+          </form>
+
+          <div className="divider my-8 text-xs text-base-content/50">or</div>
+
+          <button className="btn btn-outline w-full btn-lg gap-3">
+            <Fingerprint size={20} />
+            Use Biometrics / Face ID
           </button>
-        </form>
 
-        <div className="flex items-center gap-3 my-10">
-          <div className="flex-1 h-px bg-gray-100" />
-          <span className="text-xs text-gray-400 font-medium">or</span>
-          <div className="flex-1 h-px bg-gray-100" />
+          <p className="text-center text-sm text-base-content/60 mt-8">
+            {"Don't have an account? "}
+            <Link to="/register" className="link link-primary font-semibold">Create Account</Link>
+          </p>
         </div>
 
-        <button className="w-full flex items-center justify-center gap-3 py-5 rounded-2xl border-2 border-gray-100 text-gray-600 font-semibold text-sm hover:border-green-200 hover:text-green-700 transition-all">
-          Use Biometrics / Face ID
-        </button>
-
-        <p className="text-center text-sm text-gray-400 mt-8">
-          Don't have an account?{' '}
-          <Link to="/register" className="text-green-600 font-semibold hover:underline">
-            Create Account
-          </Link>
-        </p>
-      </div>
       </div>
     </div>
   );

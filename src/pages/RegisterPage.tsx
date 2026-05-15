@@ -41,10 +41,42 @@ export default function RegisterPage() {
   const update = (field: string, value: string) => { setForm((f) => ({ ...f, [field]: value })); setError(''); };
 
   const simulateBvnFill = (bvn: string) => {
-    const firstNames = ['Emeka', 'Fatima', 'Chidi', 'Amaka', 'Tunde', 'Ngozi', 'Bola', 'Yemi'];
-    const lastNames = ['Okafor', 'Adeleke', 'Ibrahim', 'Nwosu', 'Balogun', 'Eze', 'Abubakar', 'Adeyemi'];
-    update('firstName', firstNames[parseInt(bvn[4], 10) % firstNames.length]);
-    update('lastName', lastNames[parseInt(bvn[7], 10) % lastNames.length]);
+    // Mirror of backend SANDBOX_BVNS — same records, works offline
+    const SANDBOX: Record<string, { firstName: string; lastName: string }> = {
+      '22191234560': { firstName: 'Chukwuemeka', lastName: 'Okonkwo'  },
+      '22192345671': { firstName: 'Fatima',       lastName: 'Abubakar' },
+      '22193456782': { firstName: 'Adebayo',      lastName: 'Adeleke'  },
+      '22194567893': { firstName: 'Ngozi',         lastName: 'Eze'      },
+      '22195678904': { firstName: 'Tunde',         lastName: 'Balogun'  },
+      '22196789015': { firstName: 'Amaka',         lastName: 'Nwosu'    },
+      '22197890126': { firstName: 'Ibrahim',       lastName: 'Musa'     },
+      '22198901237': { firstName: 'Chidinma',      lastName: 'Obi'      },
+      '22199012348': { firstName: 'Oluwaseun',     lastName: 'Adeyemi'  },
+      '22100123459': { firstName: 'Hauwa',         lastName: 'Yakubu'   },
+      '22101234560': { firstName: 'Emeka',         lastName: 'Nwankwo'  },
+      '22102345671': { firstName: 'Yetunde',       lastName: 'Ogunleye' },
+      '22103456782': { firstName: 'Usman',         lastName: 'Danjuma'  },
+      '22104567893': { firstName: 'Blessing',      lastName: 'Onyeka'   },
+      '22105678904': { firstName: 'Rotimi',        lastName: 'Fashola'  },
+      '22106789015': { firstName: 'Aisha',         lastName: 'Garba'    },
+      '22107890126': { firstName: 'Kelechi',       lastName: 'Uchenna'  },
+      '22108901237': { firstName: 'Folake',        lastName: 'Salami'   },
+      '22109012348': { firstName: 'Musa',          lastName: 'Aliyu'    },
+      '22110123459': { firstName: 'Adaeze',        lastName: 'Okafor'   },
+    };
+    const record = SANDBOX[bvn];
+    if (record) {
+      update('firstName', record.firstName);
+      update('lastName', record.lastName);
+    } else {
+      // Deterministic fallback for any other 11-digit BVN
+      const firstNames = ['Emeka','Fatima','Chidi','Amaka','Tunde','Ngozi','Bola','Yemi',
+                          'Kunle','Ada','Seun','Halima','Gbenga','Ifeoma','Bashir','Sola'];
+      const lastNames  = ['Okafor','Adeleke','Ibrahim','Nwosu','Balogun','Eze','Abubakar',
+                          'Adeyemi','Musa','Obi','Lawal','Dankwa','Fashola','Ogbu','Yakubu'];
+      update('firstName', firstNames[parseInt(bvn[4], 10) % firstNames.length]);
+      update('lastName',  lastNames[parseInt(bvn[7],  10) % lastNames.length]);
+    }
     setBvnAutoFilled(true);
   };
 

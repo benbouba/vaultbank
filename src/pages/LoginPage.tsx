@@ -30,8 +30,9 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="min-h-screen bg-white flex flex-col">
-      <div className="bg-gradient-to-br from-green-600 to-emerald-500 px-6 pt-16 pb-12">
+    <div className="min-h-screen bg-gray-100 flex justify-center">
+      <div className="w-full max-w-sm min-h-screen bg-white flex flex-col">
+      <div className="bg-gradient-to-br from-green-600 to-emerald-500" style={{paddingLeft:'28px',paddingRight:'28px',paddingTop:'64px',paddingBottom:'56px'}}>
         <div className="flex items-center gap-3 mb-6">
           <div className="w-10 h-10 bg-white rounded-2xl flex items-center justify-center shadow-md">
             <span className="text-green-600 font-black text-base">VB</span>
@@ -42,16 +43,16 @@ export default function LoginPage() {
         <p className="text-green-200 text-sm mt-3">Sign in to access your account</p>
       </div>
 
-      <div className="flex-1 bg-white px-6 pt-10 pb-12" style={{boxShadow:'0 -8px 24px rgba(0,0,0,0.06)'}}>
+      <div className="flex-1 bg-white overflow-y-auto" style={{boxShadow:'0 -8px 24px rgba(0,0,0,0.06)', padding:'56px 28px 64px'}}>
         {error && (
           <div className="mb-5 px-4 py-3 bg-red-50 border border-red-100 rounded-2xl text-sm text-red-600 font-medium">
             {error}
           </div>
         )}
 
-        <form onSubmit={handleSubmit} className="space-y-8">
+        <form onSubmit={handleSubmit} style={{display:'flex',flexDirection:'column',gap:'40px'}}>
           <div>
-            <label className="block text-sm font-semibold text-gray-700 mb-3">
+            <label className="block text-sm font-semibold text-gray-700" style={{marginBottom:'20px'}}>
               Phone Number
             </label>
             <input
@@ -68,7 +69,7 @@ export default function LoginPage() {
           </div>
 
           <div>
-            <label className="block text-sm font-semibold text-gray-700 mb-3">
+            <label className="block text-sm font-semibold text-gray-700" style={{marginBottom:'20px'}}>
               PIN
             </label>
             <div className="relative">
@@ -126,6 +127,7 @@ export default function LoginPage() {
             Create Account
           </Link>
         </p>
+      </div>
       </div>
     </div>
   );

@@ -80,9 +80,7 @@ export const api = {
       request<AuthResponse>('POST', '/auth/login', { phone, pin }),
 
     refresh: (refreshToken: string) =>
-      request<{ accessToken: string; refreshToken: string }>('POST', '/auth/refresh', {
-        refreshToken,
-      }),
+      request<AuthResponse>('POST', '/auth/refresh', { refreshToken }),
 
     logout: (token: string) => request<{ message: string }>('POST', '/auth/logout', {}, token),
   },

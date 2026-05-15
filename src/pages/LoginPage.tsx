@@ -1,16 +1,32 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { Eye, EyeOff, ArrowRight, Fingerprint } from 'lucide-react';
 import { useBankStore } from '../store/bankStore';
+import {
+  isPlatformAuthenticatorAvailable,
+  hasBiometricEnrolled,
+  enrollBiometric,
+  authenticateBiometric,
+  updateBiometricRefreshToken,
+} from '../utils/biometric';
 
 export default function LoginPage() {
   const navigate = useNavigate();
   const login = useBankStore((s) => s.login);
+  const loginWithBiometric = useBankStore((s) => s.loginWithBiometric);
   const [phone, setPhone] = useState('');
   const [pin, setPin] = useState('');
   const [showPin, setShowPin] = useState(false);
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
+  const [biometricReady, setBiometricReady] = useState(false);
+  const [biometricLoading, setBiometricLoading] = useState(false);
+
+  useEffect(() => {
+    isPlatformAuthenticatorAvailable().then((available) => {
+      setBiometricReady(available && hasBiometricEnrolled());
+    });
+  }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -19,8 +35,47 @@ export default function LoginPage() {
     setLoading(true);
     const success = await login(phone, pin);
     setLoading(false);
-    if (success) navigate('/dashboard');
-    else setError('Invalid phone number or PIN. Please try again.');
+    if (success) {
+      // Enroll or refresh biometric credential in the background
+      const storedToken = useBankStore.getState().refreshToken;
+      if (storedToken) {
+        void isPlatformAuthenticatorAvailable().then((available) => {
+          if (!available) return;
+          if (hasBiometricEnrolled()) {
+            updateBiometricRefreshToken(storedToken);
+          } else {
+            void enrollBiometric(phone, storedToken);
+          }
+        });
+      }
+      navigate('/dashboard');
+    } else {
+      setError('Invalid phone number or PIN. Please try again.');
+    }
+  };
+
+  const handleBiometricLogin = async () => {
+    if (!biometricReady) {
+      setError('Sign in with your PIN first to enable Face ID / Fingerprint.');
+      return;
+    }
+    setBiometricLoading(true);
+    setError('');
+    const result = await authenticateBiometric();
+    if (!result) {
+      setBiometricLoading(false);
+      setError('Biometric authentication was cancelled or failed. Use your PIN.');
+      return;
+    }
+    const success = await loginWithBiometric(result.refreshToken);
+    setBiometricLoading(false);
+    if (success) {
+      const newToken = useBankStore.getState().refreshToken;
+      if (newToken) updateBiometricRefreshToken(newToken);
+      navigate('/dashboard');
+    } else {
+      setError('Session expired. Please sign in with your PIN.');
+    }
   };
 
   return (
@@ -101,9 +156,16 @@ export default function LoginPage() {
 
           <div className="divider my-8 text-xs text-base-content/50">or</div>
 
-          <button className="btn btn-outline w-full btn-lg gap-3">
-            <Fingerprint size={20} />
-            Use Biometrics / Face ID
+          <button
+            type="button"
+            onClick={handleBiometricLogin}
+            disabled={biometricLoading}
+            className={`btn w-full btn-lg gap-3 ${biometricReady ? 'btn-outline' : 'btn-ghost text-base-content/40'}`}
+          >
+            {biometricLoading
+              ? <span className="loading loading-spinner loading-sm" />
+              : <><Fingerprint size={20} />{biometricReady ? 'Use Face ID / Fingerprint' : 'Face ID / Fingerprint'}</>
+            }
           </button>
 
           <p className="text-center text-sm text-base-content/60 mt-8">

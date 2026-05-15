@@ -137,14 +137,31 @@ router.post('/refresh', validate(refreshSchema), async (req: Request, res: Respo
     return;
   }
 
-  const user = await prisma.user.findUnique({ where: { id: result.userId } });
+  const user = await prisma.user.findUnique({
+    where: { id: result.userId },
+    include: { account: true },
+  });
   if (!user) {
     res.status(401).json({ error: 'User not found.' });
     return;
   }
 
   const accessToken = issueAccessToken({ sub: user.id, phone: user.phone });
-  res.json({ accessToken, refreshToken: result.newRaw });
+  res.json({
+    accessToken,
+    refreshToken: result.newRaw,
+    user: {
+      id: user.id,
+      firstName: user.firstName,
+      lastName: user.lastName,
+      email: user.email,
+      phone: user.phone,
+      kycVerified: user.kycVerified,
+      accountNumber: user.account?.accountNumber,
+      balance: user.account?.balance,
+      createdAt: user.createdAt,
+    },
+  });
 });
 
 // POST /api/auth/logout

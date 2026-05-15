@@ -34,6 +34,7 @@ interface BankState {
     bvn?: string;
   }) => Promise<void>;
   login: (phone: string, pin: string) => Promise<boolean>;
+  loginWithBiometric: (refreshToken: string) => Promise<boolean>;
   logout: () => Promise<void>;
 
   // Account actions
@@ -108,6 +109,22 @@ export const useBankStore = create<BankState>()(
       login: async (phone, pin) => {
         try {
           const res = await api.auth.login(phone, pin);
+          set({
+            isAuthenticated: true,
+            accessToken: res.accessToken,
+            refreshToken: res.refreshToken,
+            user: mapUser(res.user),
+            account: mapAccount(res.user),
+          });
+          return true;
+        } catch {
+          return false;
+        }
+      },
+
+      loginWithBiometric: async (refreshToken) => {
+        try {
+          const res = await api.auth.refresh(refreshToken);
           set({
             isAuthenticated: true,
             accessToken: res.accessToken,

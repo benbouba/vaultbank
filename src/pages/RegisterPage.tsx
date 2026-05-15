@@ -36,8 +36,17 @@ export default function RegisterPage() {
   const [loading, setLoading] = useState(false);
   const [bvnVerifying, setBvnVerifying] = useState(false);
   const [bvnVerified, setBvnVerified] = useState(false);
+  const [bvnAutoFilled, setBvnAutoFilled] = useState(false);
 
   const update = (field: string, value: string) => { setForm((f) => ({ ...f, [field]: value })); setError(''); };
+
+  const simulateBvnFill = (bvn: string) => {
+    const firstNames = ['Emeka', 'Fatima', 'Chidi', 'Amaka', 'Tunde', 'Ngozi', 'Bola', 'Yemi'];
+    const lastNames = ['Okafor', 'Adeleke', 'Ibrahim', 'Nwosu', 'Balogun', 'Eze', 'Abubakar', 'Adeyemi'];
+    update('firstName', firstNames[parseInt(bvn[4], 10) % firstNames.length]);
+    update('lastName', lastNames[parseInt(bvn[7], 10) % lastNames.length]);
+    setBvnAutoFilled(true);
+  };
 
   const handleVerifyBvn = async () => {
     if (!/^\d{11}$/.test(form.bvn)) { setError('BVN must be exactly 11 digits.'); return; }
@@ -47,10 +56,21 @@ export default function RegisterPage() {
         method: 'POST', headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ bvn: form.bvn }),
       });
-      if (res.ok) setBvnVerified(true);
-      else { const data = await res.json(); setError(data.error ?? 'BVN verification failed.'); }
-    } catch { setBvnVerified(true); }
-    finally { setBvnVerifying(false); }
+      if (res.ok) {
+        const data = await res.json();
+        setBvnVerified(true);
+        if (data.firstName) update('firstName', data.firstName);
+        if (data.lastName) update('lastName', data.lastName);
+        if (data.firstName || data.lastName) setBvnAutoFilled(true);
+      } else {
+        const data = await res.json();
+        setError(data.error ?? 'BVN verification failed.');
+      }
+    } catch {
+      // Backend not running — simulate locally (same algorithm as bvnService)
+      setBvnVerified(true);
+      simulateBvnFill(form.bvn);
+    } finally { setBvnVerifying(false); }
   };
 
   const handleStep1 = () => {
@@ -129,7 +149,7 @@ export default function RegisterPage() {
                 <div className="relative">
                   <input
                     type="tel" value={form.bvn}
-                    onChange={(e) => { update('bvn', e.target.value.replace(/\D/g, '').slice(0, 11)); setBvnVerified(false); }}
+                    onChange={(e) => { update('bvn', e.target.value.replace(/\D/g, '').slice(0, 11)); setBvnVerified(false); setBvnAutoFilled(false); }}
                     placeholder="Enter 11-digit BVN" maxLength={11} disabled={bvnVerified}
                     className={`input input-lg w-full pr-24 ${bvnVerified ? 'border-success' : ''}`}
                   />
@@ -146,6 +166,11 @@ export default function RegisterPage() {
                 {bvnVerified && (
                   <p className="fieldset-label text-success font-medium mt-1 flex items-center gap-1">
                     <CheckCircle2 size={12} /> BVN verified successfully
+                  </p>
+                )}
+                {bvnAutoFilled && (
+                  <p className="fieldset-label text-info font-medium mt-1 flex items-center gap-1">
+                    <ShieldCheck size={12} /> Name auto-filled from your BVN record
                   </p>
                 )}
                 <p className="fieldset-label mt-1">Dial *565*0# on your registered line to get your BVN.</p>
